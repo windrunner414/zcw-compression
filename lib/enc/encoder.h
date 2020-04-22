@@ -43,7 +43,7 @@ namespace zcw {
     private:
         const EncoderDict *dictionary_;
         const char *src_;
-        size_t src_size_;
+        const size_t src_size_;
         EncoderState state_;
         const char *current_pos_;
         const char *end_pos_;

@@ -40,6 +40,17 @@ ZCWLIB_API unsigned short ZcwEncoderIsFailed(const ZcwEncoder *encoder);
 ZCWLIB_API size_t ZcwGetEncodeBound(const ZcwEncoder *encoder);
 ZCWLIB_API size_t ZcwEncode(ZcwEncoder *encoder, char *dst, size_t dst_capacity);
 
+struct ZcwDecoderDict;
+ZCWLIB_API ZcwDecoderDict *ZcwLoadDecoderDict(const char *dict_data, size_t dict_size);
+ZCWLIB_API void ZcwFreeDecoderDict(ZcwDecoderDict *dict);
+
+struct ZcwDecoder;
+ZCWLIB_API ZcwDecoder *ZcwCreateDecoder(const ZcwDecoderDict *dict, const char *src, size_t src_size);
+ZCWLIB_API void ZcwFreeDecoder(ZcwDecoder *decoder);
+ZCWLIB_API unsigned short ZcwDecoderIsReady(const ZcwDecoder *decoder);
+ZCWLIB_API unsigned short ZcwDecoderIsFinished(const ZcwDecoder *decoder);
+ZCWLIB_API unsigned short ZcwDecoderIsFailed(const ZcwDecoder *decoder);
+
 #ifdef __cplusplus
 }
 #endif
