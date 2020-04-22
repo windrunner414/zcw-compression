@@ -12,10 +12,24 @@ static inline uint16_t index_to_code(uint16_t index) {
 }
 
 bool zcw::EncoderDict::load(const char *dictionary_data, size_t dictionary_size) {
+    const char *p = dictionary_data;
     const char *p_end = dictionary_data + dictionary_size;
     uint16_t first_level_index = 1;
 
-    for (const char *p = dictionary_data; p < p_end;) {
+    uint16_t index_level_map_size = *reinterpret_cast<const uint16_t *>(p);
+    if (!is_little_endian()) {
+        index_level_map_size = bswap_16(index_level_map_size);
+    }
+    p += 2;
+    if (index_level_map_size > kOneByteCodeNum + kTwoByteCodeNum) {
+        return false;
+    }
+
+    for (; p < p_end;) {
+        if (first_level_index > index_level_map_size) {
+            return false;
+        }
+
         uint8_t word_num = *p;
         if (word_num == 0) {
             return false;
@@ -78,5 +92,5 @@ bool zcw::EncoderDict::load(const char *dictionary_data, size_t dictionary_size)
         }
     }
 
-    return true;
+    return first_level_index == (index_level_map_size + 1);
 }

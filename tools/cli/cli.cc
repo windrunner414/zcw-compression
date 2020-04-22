@@ -30,8 +30,11 @@ int main() {
     printf("src size: %d\n", src_size);
     input.seekg(0, std::ifstream::beg);
     char *src = new char[src_size];
+    memset(src, 0, src_size);
     input.read(src, src_size);
+    std::cout << std::hash<std::string_view>{}(std::string_view(src,src_size)) << std::endl;
     auto *encoder = ZcwCreateEncoder(encoder_dict, src, src_size);
+    printf("%d,%d,%d\n",ZcwEncoderIsFailed(encoder), ZcwEncoderIsReady(encoder), ZcwEncoderIsFinished(encoder));
     size_t max_size = ZcwGetEncodeBound(encoder);
     auto *dst = new char[max_size];
     size_t size = ZcwEncode(encoder, dst, max_size);
@@ -41,6 +44,7 @@ int main() {
     printf("compressed size: %d, error: %d, ready: %d, finish: %d", size, ZcwEncoderIsFailed(encoder), ZcwEncoderIsReady(encoder), ZcwEncoderIsFinished(encoder));
 
     delete[] src;
+    delete[] dst;
     ZcwFreeEncoder(encoder);
     ZcwFreeEncoderDict(encoder_dict);
 

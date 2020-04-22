@@ -27,10 +27,14 @@ def generate(args):
             p_word = word
 
     with open(args.output, 'wb') as output_file:
-        for e in words.most_common(DICT_MAX_CODE):
+        output_words = words.most_common(DICT_MAX_CODE)
+        output_file.write(len(output_words).to_bytes(2, byteorder='little', signed=False))
+
+        for e in output_words:
             word = e[0]
             output_file.write(len(word).to_bytes(1, byteorder='little', signed=False))
             output_file.write(word.encode('utf-8'))
+
             if word in bi_gram.keys():
                 n_word_list = bi_gram[word].most_common(DICT_MAX_CODE)
                 output_file.write(len(n_word_list).to_bytes(2, byteorder='little', signed=False))

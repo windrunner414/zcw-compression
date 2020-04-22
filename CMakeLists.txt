@@ -18,7 +18,8 @@ include_directories(${LIBRARY_DIR} ${LIBRARY_DIR}/common)
 set(Sources
         ${LIBRARY_DIR}/zcw.cc
         ${LIBRARY_DIR}/enc/encoder_dict.cc
-        ${LIBRARY_DIR}/enc/encoder.cc)
+        ${LIBRARY_DIR}/enc/encoder.cc
+        ${LIBRARY_DIR}/dec/decoder.cc)
 
 set(Headers
         ${LIBRARY_DIR}/zcw.h
@@ -26,7 +27,8 @@ set(Headers
         ${LIBRARY_DIR}/common/dictionary.h
         ${LIBRARY_DIR}/enc/word.h
         ${LIBRARY_DIR}/common/internal.h
-        ${LIBRARY_DIR}/enc/encoder.h)
+        ${LIBRARY_DIR}/enc/encoder.h
+        ${LIBRARY_DIR}/dec/decoder.h)
 
 if (ZCW_BUILD_SHARED)
     add_library(libzcw_shared SHARED ${Sources} ${Headers})
